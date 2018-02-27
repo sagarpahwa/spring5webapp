@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title> Spring Book Store</title>
+</head>
+<body>
+    <h1>Books Available</h1>
+    <table>
+        <tr>
+            <td colspan="1">ID</td>
+            <td colspan="4">Title</td>
+            <td colspan="2">Publisher</td>
+            <td colspan="8">Author</td>
+        </tr>
+        <tr th:each="book:${books}">
+            <td colspan="1" th:text="${book.id}">123</td>
+            <td colspan="4" th:text="${book.title}">ABC</td>
+            <td colspan="2" th:text="${book.publisher.name}">XYZ</td>
+            <td colspan="8" th:each="author:${book.authors}">
+                <span colspan="4" th:text="${author.firstName}"></span>
+                <span colspan="4" th:text="${author.lastName}"></span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package sagar.pahwa.springboot.spring5webapp.bootstrap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -13,15 +14,12 @@ import sagar.pahwa.springboot.spring5webapp.repositories.PublisherRepository;
 @Component
 public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 
+    @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
     private BookRepository bookRepository;
+    @Autowired
     private PublisherRepository publisherRepository;
-
-    public DevBootstrap(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
-        this.authorRepository = authorRepository;
-        this.bookRepository = bookRepository;
-        this.publisherRepository = publisherRepository;
-    }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -32,7 +30,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 
         //Dan Brown
         Publisher publisher = new Publisher();
-        publisher.setName("ABC");
+        publisher.setName("Pearson");
         publisher.setAddress("USA");
         publisherRepository.save(publisher);
         Author dan = new Author("Dan","Brown");
@@ -40,15 +38,16 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
         inferno.getAuthors().add(dan);
         dan.getBooks().add(inferno);
         bookRepository.save(inferno);
-        authorRepository.save(dan);
 
         //Stephen King
         Book shining = new Book("The Shining","1123",publisher);
         Author stephen = new Author("Stephen","King");
-        //shining.getAuthors().add(dan);
+        shining.getAuthors().add(dan);
+        dan.getBooks().add(shining);
         shining.getAuthors().add(stephen);
         stephen.getBooks().add(shining);
         bookRepository.save(shining);
+        authorRepository.save(dan);
         authorRepository.save(stephen);
 
     }
